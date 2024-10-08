@@ -25,7 +25,7 @@
           ];
         };
         toolchain = pkgs.rust-bin.stable.latest.default;
-      in rec {
+      in {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs;
             [
@@ -35,9 +35,14 @@
               rust-analyzer
               crate2nix
               pkg-config
+              openssl
+              openssl.dev
+            ]
+            ++ pkgs.lib.optional pkgs.stdenv.isDarwin [
+              darwin.Security
+              darwin.apple_sdk.frameworks.SystemConfiguration
             ];
         };
       }
     );
 }
-
